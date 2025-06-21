@@ -24,6 +24,7 @@ templates {
 		hitCounter {
 			style <style>
 			pad_digits <num>
+			initial_seed <seed>
 		}
 	}
 }
@@ -39,6 +40,8 @@ Possible styles are:
 - <img src="https://github.com/mholt/caddy-hitcounter/assets/1128849/aa0ee1f3-5dc6-4be4-a911-a5281618ace6" height="22"> `yellow`
 
 If you want your hit counter to have a fixed size / number of digits, you can set pad_digits > 0.
+
+If you want your counters to start from a specific value instead of 0, you can set initial_seed to any positive number. This is useful if you're migrating from another system or want to continue from a previous count.
 
 Then in your template:
 

@@ -38,6 +38,11 @@ type HitCounter struct {
 	// padding is disabled.
 	PadDigits int `json:"pad_digits,omitempty"`
 
+	// Initial seed value for counters. If a counter doesn't exist,
+	// it will start from this value instead of 0.
+	// Default: 0.
+	InitialSeed uint64 `json:"initial_seed,omitempty"`
+
 	// Pre-generated <img> tags with base64 data URIs for portability.
 	// The index is the digit.
 	imgTags [10]string
@@ -99,7 +104,10 @@ func (hc *HitCounter) CustomTemplateFunctions() template.FuncMap {
 		"hitCounter": func(key string) (string, error) {
 			// get and increment the count
 			hc.countersMu.Lock()
-			count := hc.counters[key]
+			count, exists := hc.counters[key]
+			if !exists {
+				count = hc.InitialSeed
+			}
 			count++
 			hc.counters[key] = count
 			hc.countersMu.Unlock()

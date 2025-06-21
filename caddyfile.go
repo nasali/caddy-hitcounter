@@ -12,6 +12,7 @@ import (
 //	hitCounter {
 //	    style green|bright_green|odometer|yellow
 //	    pad_digits <num_digits>
+//	    initial_seed <seed_value>
 //	}
 func (hc *HitCounter) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.Next() {
@@ -34,6 +35,18 @@ func (hc *HitCounter) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 					return d.Errf("invalid digit padding number '%s': %v", d.Val(), err)
 				}
 				hc.PadDigits = num
+				if d.NextArg() {
+					return d.ArgErr()
+				}
+			case "initial_seed":
+				if !d.NextArg() {
+					return d.ArgErr()
+				}
+				seed, err := strconv.ParseUint(d.Val(), 10, 64)
+				if err != nil {
+					return d.Errf("invalid initial seed value '%s': %v", d.Val(), err)
+				}
+				hc.InitialSeed = seed
 				if d.NextArg() {
 					return d.ArgErr()
 				}

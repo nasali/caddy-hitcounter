@@ -1,4 +1,4 @@
-module github.com/mholt/caddy-hitcounter
+module github.com/nasali/caddy-hitcounter
 
 go 1.21.0
 

@@ -153,6 +153,12 @@ func (hc *HitCounter) persist() error {
 	hc.lastStore = time.Now()
 	hc.lastStoreMu.Unlock()
 
+	// Ensure the directory exists
+	dir := filepath.Dir(persistencePath)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return err
+	}
+
 	file, err := os.Create(persistencePath)
 	if err != nil {
 		return err

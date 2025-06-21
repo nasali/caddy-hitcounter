@@ -2,6 +2,7 @@ package hitcounter
 
 import (
 	"context"
+	"path/filepath"
 	"strings"
 	"testing"
 	"text/template"
@@ -10,6 +11,12 @@ import (
 )
 
 func TestHitCounter_InitialSeed(t *testing.T) {
+	// Set up a temporary persistence path for this test
+	tempDir := t.TempDir()
+	originalPath := persistencePath
+	persistencePath = filepath.Join(tempDir, "test_hitcounters.json")
+	defer func() { persistencePath = originalPath }()
+
 	tests := []struct {
 		name        string
 		initialSeed uint64
@@ -86,6 +93,12 @@ func TestHitCounter_InitialSeed(t *testing.T) {
 }
 
 func TestHitCounter_MultipleIncrements(t *testing.T) {
+	// Set up a temporary persistence path for this test
+	tempDir := t.TempDir()
+	originalPath := persistencePath
+	persistencePath = filepath.Join(tempDir, "test_hitcounters.json")
+	defer func() { persistencePath = originalPath }()
+
 	hc := &HitCounter{
 		InitialSeed: 50,
 		Style:       "green",
@@ -147,6 +160,12 @@ func TestHitCounter_MultipleIncrements(t *testing.T) {
 }
 
 func TestHitCounter_PaddingWithSeed(t *testing.T) {
+	// Set up a temporary persistence path for this test
+	tempDir := t.TempDir()
+	originalPath := persistencePath
+	persistencePath = filepath.Join(tempDir, "test_hitcounters.json")
+	defer func() { persistencePath = originalPath }()
+
 	hc := &HitCounter{
 		InitialSeed: 98,
 		PadDigits:   4,
@@ -186,6 +205,12 @@ func TestHitCounter_PaddingWithSeed(t *testing.T) {
 }
 
 func TestHitCounter_TemplateFunctionIntegration(t *testing.T) {
+	// Set up a temporary persistence path for this test
+	tempDir := t.TempDir()
+	originalPath := persistencePath
+	persistencePath = filepath.Join(tempDir, "test_hitcounters.json")
+	defer func() { persistencePath = originalPath }()
+
 	hc := &HitCounter{
 		InitialSeed: 500,
 		Style:       "green",
